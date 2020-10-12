@@ -11,7 +11,7 @@ setup(
     name="worklife",
     version="0.1",
     author="Francesco Perna",
-    description="Python API to provide data to jauge application",
+    description="Python API to provide data to sample holiday application",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="",
