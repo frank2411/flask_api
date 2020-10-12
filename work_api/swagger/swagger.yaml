@@ -1,0 +1,596 @@
+openapi: 3.0.0
+info:
+  title: Flask api sample swagger
+  description: Flask api sample swagger
+  version: '0.1'
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Local server for testing
+paths:
+  /employees:
+    get:
+      tags:
+        - employees
+      summary: Returns a list of employees.
+      description: Returns a list of employees.
+      responses:
+        '200':    # status code
+          description: A JSON array of employees objects
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  employees:
+                    type: array
+                    items: 
+                      description: List of employees JSON objects
+                      type: object
+    post:
+      tags:
+        - employees
+      summary: Creates an employee.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                team:
+                  type: integer
+              required:
+                - email
+                - team
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: employee created
+                  employee:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      team:
+                        type: integer
+        '422':
+          description: List of errors occured in creation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorfield:
+                    type: array
+                    items:
+                      type: string
+                      description: Error detail
+
+  /employees/{employee_id}:
+    get:
+      tags:
+        - employees
+      summary: Returns an employees by ID. If it exists.
+      parameters:
+        - name: employee_id
+          in: path
+          required: true
+          description: Employee id to get.
+          schema:
+            type : integer
+      responses: 
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  employee:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      team:
+                        type: integer
+
+        '404':
+          description: Employee not foud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Employee not found
+    patch:
+      tags:
+        - employees
+      summary: Update an employee.
+      parameters:
+        - name: employee_id
+          in: path
+          required: true
+          description: Employee id to get.
+          schema:
+            type : integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                team:
+                  type: integer
+      responses: 
+        '200':
+          description: Employee updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  employee:
+                    description: updated employee object
+                    type: object
+        '422':
+          description: List of errors occured in creation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorfield:
+                    type: array
+                    items:
+                      type: string
+                      description: Error detail
+    delete:
+      tags:
+        - employees
+      summary: Delete an employee.
+      parameters:
+        - name: employee_id
+          in: path
+          required: true
+          description: Employee id to get.
+          schema:
+            type : integer
+      responses: 
+        '200':
+          description: Employee deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Employee not foud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Employee not found
+
+  /teams:
+    get:
+      tags:
+        - teams
+      summary: Returns a list of teams.
+      description: Returns a list of teams.
+      responses:
+        '200':    # status code
+          description: A JSON array of teams objects
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  teams:
+                    type: array
+                    items: 
+                      description: List of teams JSON objects
+                      type: object
+    post:
+      tags:
+        - teams
+      summary: Creates a team.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+                - description
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: team created
+                  team:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      description:
+                        type: string
+
+        '422':
+          description: List of errors occured in creation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorfield:
+                    type: array
+                    items:
+                      type: string
+                      description: Error detail
+  /teams/{team_id}:
+    get:
+      tags:
+        - teams
+      summary: Returns a team by ID. If it exists.
+      parameters:
+        - name: team_id
+          in: path
+          required: true
+          description: Team id to get.
+          schema:
+            type : integer
+      responses: 
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      description:
+                        type: string
+        '404':
+          description: Team not foud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Team not found
+    patch:
+      tags:
+        - teams
+      summary: Update a team.
+      parameters:
+        - name: team_id
+          in: path
+          required: true
+          description: Team id to get.
+          schema:
+            type : integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses: 
+        '200':
+          description: Team updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  team:
+                    description: updated team object
+                    type: object
+        '422':
+          description: List of errors occured in creation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorfield:
+                    type: array
+                    items:
+                      type: string
+                      description: Error detail
+    delete:
+      tags:
+        - teams
+      summary: Delete a team.
+      parameters:
+        - name: team_id
+          in: path
+          required: true
+          description: Team id to get.
+          schema:
+            type : integer
+      responses: 
+        '200':
+          description: Team deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Team not foud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Team not found
+
+
+  /holidays:
+    get:
+      tags:
+        - holidays
+      summary: Returns a list of holidays.
+      description: Returns a list of holidays.
+      responses:
+        '200':    # status code
+          description: A JSON array of holidays objects
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  holidays:
+                    type: array
+                    items: 
+                      description: List of holidays JSON objects
+                      type: object
+    post:
+      tags:
+        - holidays
+      summary: Creates a holiday.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start_date:
+                  type: string
+                end_date:
+                  type: string
+                employee:
+                  type: integer
+                holiday_type:
+                  type: string
+                holiday_subtype:
+                  type: string
+              required:
+                - start_date
+                - end_date
+                - employee
+                - holiday_type
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: holiday created
+                  holiday:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      start_date:
+                        type: string
+                      end_date:
+                        type: string
+                      employee:
+                        type: integer
+                      holiday_type:
+                        type: string
+                      holiday_subtype:
+                        type: string
+        '422':
+          description: List of errors occured in creation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorfield:
+                    type: array
+                    items:
+                      type: string
+                      description: Error detail
+  /holidays/{holiday_id}:
+    get:
+      tags:
+        - holidays
+      summary: Returns a holiday by ID. If it exists.
+      parameters:
+        - name: holiday_id
+          in: path
+          required: true
+          description: Holiday id to get.
+          schema:
+            type : integer
+      responses: 
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  holiday:
+                    type: object
+                    properties:
+                      start_date:
+                        type: string
+                      end_date:
+                        type: string
+                      employee:
+                        type: integer
+                      holiday_type:
+                        type: string
+                      holiday_subtype:
+                        type: string
+        '404':
+          description: Holiday not foud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Holiday not found
+    patch:
+      tags:
+        - holidays
+      summary: Update a holiday.
+      parameters:
+        - name: holiday_id
+          in: path
+          required: true
+          description: Team id to get.
+          schema:
+            type : integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start_date:
+                  type: string
+                end_date:
+                  type: string
+                employee:
+                  type: integer
+                holiday_type:
+                  type: string
+                holiday_subtype:
+                  type: string
+      responses: 
+        '200':
+          description: Holiday updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  holiday:
+                    description: updated holiday object
+                    type: object
+        '422':
+          description: List of errors occured in creation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorfield:
+                    type: array
+                    items:
+                      type: string
+                      description: Error detail
+    delete:
+      tags:
+        - holidays
+      summary: Delete a holiday.
+      parameters:
+        - name: holiday_id
+          in: path
+          required: true
+          description: Holiday id to get.
+          schema:
+            type : integer
+      responses: 
+        '200':
+          description: Holiday deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Holiday not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Holiday not found
+
