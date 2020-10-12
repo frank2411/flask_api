@@ -11,6 +11,13 @@ DB_PORT=5432
 DB_NAME=worklife
 ```
 
+### Run init-db and populate-db ( optional commands ) commands
+
+```shell
+flask init-db
+flask populate-db
+```
+
 ### Run the application
 
 ```shell
@@ -29,3 +36,13 @@ tox
 ### Check swagger
 
 go to: http://localhost:5000/api/v1/docs
+
+
+### Additional info
+
+Alembic is already configured to work out of the box. Without either flask-sqlalchemy and flask-migrate.
+
+
+
+
+
